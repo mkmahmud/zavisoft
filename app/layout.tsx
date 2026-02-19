@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${rubik.variable} antialiased`}
+        className={`${rubik.variable} antialiased max-w-[14400px] mx-auto `}
       >
         <StoreProvider>
           <Navbar />
