@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
 import StoreProvider from "../components/StoreProvider";
+import Navbar from "@/components/shared/navbar/navbar";
+import Footer from "@/components/shared/footer/footer";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -25,7 +27,9 @@ export default function RootLayout({
         className={`${rubik.variable} antialiased`}
       >
         <StoreProvider>
+          <Navbar />
           {children}
+          <Footer />
         </StoreProvider>
       </body>
     </html>
