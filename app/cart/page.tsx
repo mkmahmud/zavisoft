@@ -1,8 +1,6 @@
-import React from 'react';
-import { Heart, Trash2, ChevronDown, ArrowLeft, ArrowRight } from 'lucide-react';
+ import { Heart, Trash2, ChevronDown, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ProductCard from '@/components/cards/productCard';
-
+ 
 export default function CartPage() {
     return (
         <div className=" pt-10 pb-12 px-4 font-rubik max-w-7xl mx-auto ">
@@ -125,13 +123,7 @@ export default function CartPage() {
                     </div>
                 </div>
 
-                {/* Products */}
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   gap-6">
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                    <ProductCard />
-                </div>
+              
             </div>
         </div>
     );

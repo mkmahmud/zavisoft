@@ -10,7 +10,7 @@ export const apiSlice = createApi({
         },
     }),
     // Tags 
-    tagTypes: ['User', 'Post', 'Product'],
+    tagTypes: ['Product', "Category"],
 
     endpoints: () => ({}),
 });

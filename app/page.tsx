@@ -1,17 +1,20 @@
 'use client';
 
-import CategoryCard from "@/components/cards/categoryCard";
 import ProductCard from "@/components/cards/productCard";
 import ReviewCard from "@/components/cards/reviewCard";
+import Category from "@/components/sections/home/category";
+import { ProductCardSkeleton } from "@/components/skeletons/productSkeleton";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
-
-
-
+import { useGetProductsQuery } from "@/lib/services/productSlice";
+import Link from "next/link";
 
 
 export default function UsersPage() {
 
+  // Get Products Data
+  const { data: products, error, isLoading } = useGetProductsQuery();
+  // Filter Data into 4 products
+  const displayedProducts = products ? products.slice(0, 4) : [];
 
 
   return (
@@ -71,40 +74,39 @@ export default function UsersPage() {
           <h1 className=" text-2xl md:text-4xl md:text-[74px] font-bold md:uppercase  md:max-w-2xl ">Don’t miss out new drops</h1>
           <div className="w-full md:w-auto flex items-center justify-end ">
             <Button variant="default"  >
-              Shop New Drops
+              <Link href="/products">
+                Shop New Drops
+              </Link>
             </Button>
           </div>
         </div>
 
         {/* Products */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4   gap-6">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+
+          {
+            displayedProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          }
+          {/* If Product Loading */}
+
+          {
+            isLoading && (
+              <>
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+                <ProductCardSkeleton />
+              </>
+            )
+          }
+
         </div>
       </section>
 
       {/* Categoris */}
-      <section className="bg-dark-gray mt-20 pt-8   ">
-        <div className="flex items-center md:items-end justify-between space-x-2     px-4  py-8   ">
-          <h1 className=" text-2xl md:text-4xl md:text-[74px] font-bold md:uppercase  md:max-w-2xl text-white ">Categories</h1>
-          <div className="w-full md:w-auto flex items-center justify-end space-x-2">
-            <Button variant="icon"  >
-              <ArrowLeft />
-            </Button>
-            <Button variant="icon"  >
-              <ArrowRight />
-            </Button>
-          </div>
-        </div>
-        {/* categories Contetn */}
-        <div className="rounded-tl-[120px] overflow-hidden ml-10 mt-10 md:flex ">
-          <CategoryCard />
-          <CategoryCard />
-
-        </div>
-      </section>
+      <Category />
 
       {/* Reviews */}
       <section className="mt-20 px-4">

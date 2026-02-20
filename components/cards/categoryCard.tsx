@@ -1,6 +1,7 @@
+import { Category } from '@/types/Products/products'
 import { ArrowUpRight } from 'lucide-react'
 
-export default function CategoryCard() {
+export default function CategoryCard({ category }: { category: Category }) {
     return (
         <div className="group relative w-full max-w-[690px] overflow-hidden cursor-pointer">
 
@@ -9,7 +10,7 @@ export default function CategoryCard() {
                 {/* Product Image */}
                 <div className="w-full h-full flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-110">
                     <img
-                        src="/products/c2.png"
+                        src={category.image}
                         className="w-full h-full object-cover   transition-transform duration-500 ease-out  scale-120"
                     />
                 </div>
@@ -17,7 +18,7 @@ export default function CategoryCard() {
                 {/* Texts*/}
                 <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-10">
                     <h2 className="text-3xl md:text-4xl font-semibold uppercase  leading-[0.9] text-dark-gray">
-                        Lifestyle <br /> Shoes
+                        {category.name}
                     </h2>
                 </div>
 
