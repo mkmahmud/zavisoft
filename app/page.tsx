@@ -1,7 +1,37 @@
 'use client';
 
+import CategoryCard from "@/components/cards/categoryCard";
 import ProductCard from "@/components/cards/productCard";
+import ReviewCard from "@/components/cards/reviewCard";
 import { Button } from "@/components/ui/button";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
+
+
+
+const reviews = [
+  {
+    title: "Good Quality",
+    desc: "I highly recommend shopping from kicks",
+    rating: 5.0,
+    userImage: "https://randomuser.me/api/portraits/men/32.jpg",
+    productImage: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"
+  },
+  {
+    title: "Good Quality",
+    desc: "I highly recommend shopping from kicks",
+    rating: 5.0,
+    userImage: "https://randomuser.me/api/portraits/men/44.jpg",
+    productImage: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop"
+  },
+  {
+    title: "Good Quality",
+    desc: "I highly recommend shopping from kicks",
+    rating: 5.0,
+    userImage: "https://randomuser.me/api/portraits/men/85.jpg",
+    productImage: "https://images.unsplash.com/photo-1605348532760-6753d2c43329?q=80&w=1000&auto=format&fit=crop"
+  }
+];
+
 
 export default function UsersPage() {
 
@@ -75,6 +105,50 @@ export default function UsersPage() {
           <ProductCard />
           <ProductCard />
           <ProductCard />
+        </div>
+      </section>
+
+      {/* Categoris */}
+      <section className="bg-dark-gray mt-20 pt-8   ">
+        <div className="flex items-center md:items-end justify-between space-x-2     px-4  py-8   ">
+          <h1 className=" text-2xl md:text-4xl md:text-[74px] font-bold md:uppercase  md:max-w-2xl text-white ">Categories</h1>
+          <div className="w-full md:w-auto flex items-center justify-end space-x-2">
+            <Button variant="icon"  >
+              <ArrowLeft />
+            </Button>
+            <Button variant="icon"  >
+              <ArrowRight />
+            </Button>
+          </div>
+        </div>
+        {/* categories Contetn */}
+        <div className="rounded-tl-[120px] overflow-hidden ml-10 mt-10 md:flex ">
+          <CategoryCard />
+          <CategoryCard />
+
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section className="mt-20 px-4">
+        <div className="flex items-center md:items-end justify-between space-x-2       py-8   ">
+          <h1 className=" text-2xl md:text-4xl md:text-[74px] font-bold md:uppercase  md:max-w-2xl ">Reviews</h1>
+          <div className="w-full md:w-auto flex items-center justify-end ">
+            <Button variant="default"  >
+              See All
+            </Button>
+          </div>
+        </div>
+        {/*  */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
+          <ReviewCard />
+          <div className="hidden md:block">
+            <ReviewCard />
+          </div>
+          <div className="hidden md:block">
+            <ReviewCard />
+          </div>
+           
         </div>
       </section>
     </div>
