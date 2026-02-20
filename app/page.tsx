@@ -8,29 +8,6 @@ import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 
 
 
-const reviews = [
-  {
-    title: "Good Quality",
-    desc: "I highly recommend shopping from kicks",
-    rating: 5.0,
-    userImage: "https://randomuser.me/api/portraits/men/32.jpg",
-    productImage: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=1000&auto=format&fit=crop"
-  },
-  {
-    title: "Good Quality",
-    desc: "I highly recommend shopping from kicks",
-    rating: 5.0,
-    userImage: "https://randomuser.me/api/portraits/men/44.jpg",
-    productImage: "https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?q=80&w=1000&auto=format&fit=crop"
-  },
-  {
-    title: "Good Quality",
-    desc: "I highly recommend shopping from kicks",
-    rating: 5.0,
-    userImage: "https://randomuser.me/api/portraits/men/85.jpg",
-    productImage: "https://images.unsplash.com/photo-1605348532760-6753d2c43329?q=80&w=1000&auto=format&fit=crop"
-  }
-];
 
 
 export default function UsersPage() {
@@ -148,7 +125,7 @@ export default function UsersPage() {
           <div className="hidden md:block">
             <ReviewCard />
           </div>
-           
+
         </div>
       </section>
     </div>
