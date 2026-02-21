@@ -26,9 +26,8 @@ export default function UnderConstruction() {
             <div className="flex flex-col md:flex-row gap-4 w-full max-w-md">
                 <Link href="/" className="w-full">
                     <Button
-                        variant="default"
-                        className="w-full h-14 bg-[#232321] hover:bg-black text-white rounded-xl font-bold uppercase italic shadow-lg flex gap-2"
-                    >
+                        variant="secondary"
+                     >
                         <ArrowLeft className="w-5 h-5" />
                         Go Back
                     </Button>

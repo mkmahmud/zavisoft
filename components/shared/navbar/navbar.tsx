@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { Search, User, Menu, ChevronDown, X, ShoppingBag } from 'lucide-react';
+import { Search, User, Menu, ChevronDown, X, ShoppingBag, ShoppingCart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
 import {
@@ -17,6 +17,8 @@ import {
     AccordionTrigger,
 } from '@/components/ui/accordion';
 import Logo from '@/components/logo';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/lib/store';
 
 const NAV_DATA = [
     { name: 'New Drops 🔥', href: '/new-drops' },
@@ -33,6 +35,10 @@ const NAV_DATA = [
 ];
 
 export default function Navbar() {
+
+    const cartItems = useSelector((state: RootState) => state.cart.items);
+    const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
     return (
         <nav className="w-full px-4 py-4 sticky top-0 z-50 ">
             <div className="mx-auto max-w-7xl bg-white rounded-[24px] px-4 md:px-6 py-3 flex items-center justify-between shadow-sm relative bg-white-gray">
@@ -120,16 +126,26 @@ export default function Navbar() {
                 {/*  Profile */}
                 <div className="flex items-center gap-2 md:gap-4">
                     <Button variant="ghost" size="icon" className="hidden md:flex">
-                        <Search className="w-5 h-5" />
+                        <Search className="!w-6 !h-6" />
                     </Button>
+
 
                     <Button variant="ghost" size="icon" className="hidden md:flex">
-                        <User className="w-5 h-5" />
+                        <User className="!w-6 !h-6" />
                     </Button>
+                    <div className='flex items-center space-x-4'>
 
-                    <div className="relative cursor-pointer group">
-                        <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-yellow flex items-center justify-center text-sm font-bold shadow-inner group-hover:scale-105 transition-transform">
-                            0
+                        <Link href="/cart">
+                            <Button variant="ghost" size="icon" className=" md:flex relative cursor-pointer">
+                                <ShoppingCart className="!w-6 !h-6" />
+                                <p className="absolute top-0 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">{cartCount}</p>
+                            </Button>
+                        </Link>
+
+                        <div className="relative cursor-pointer group">
+                            <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-yellow flex items-center justify-center text-sm font-bold shadow-inner group-hover:scale-105 transition-transform">
+                                0
+                            </div>
                         </div>
                     </div>
                 </div>

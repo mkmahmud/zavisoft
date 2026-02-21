@@ -1,21 +1,22 @@
 "use client";
-import { useRef, useState } from 'react';
-import { Heart, ArrowLeft, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import ProductCard from '@/components/cards/productCard';
 import { useParams } from 'next/navigation';
-import { useGetProductByIdQuery, useGetProductsQuery } from '@/lib/services/productSlice';
-import { ProductCardSkeleton } from '@/components/skeletons/productSkeleton';
+import { useGetProductByIdQuery } from '@/lib/services/productSlice';
 import { ProductDetailSkeleton } from '@/components/skeletons/productDetailsSkeleton';
+import { useDispatch, } from 'react-redux';
+import { addToCart } from '@/lib/features/cartSlice';
+import { toast } from 'sonner';
+import ReletedProductSection from '@/components/sections/reletedProductSection';
 
+// Mock product data for colors and sizes
 const product = {
-
     colors: [
         { name: "Shadow Navy", hex: "#2B3344" },
         { name: "Army Green", hex: "#7E8C77" }
     ],
     sizes: ["38", "39", "40", "41", "42", "43", "44", "45", "46", "47"],
-
 };
 
 export default function ProductDetails() {
@@ -24,32 +25,35 @@ export default function ProductDetails() {
     const { id } = useParams();
 
     // Get product details from api
-    const { data: productdetails, isLoading, error } = useGetProductByIdQuery(id as string);
-
-    // Get releted products from api
-    const { data: products } = useGetProductsQuery();
-    const reletedProducts = products ? products.filter(p => p.category.id === productdetails?.category.id && p.id !== productdetails.id).slice(0, 10) : [];
-
+    const { data: productdetails, isLoading } = useGetProductByIdQuery(id as string);
 
     // States
     const [selectedSize, setSelectedSize] = useState("38");
     const [selectedColor, setSelectedColor] = useState(0);
 
-    // Scroll
-    const scrollRef = useRef<HTMLDivElement>(null);
+    // Handle add to cart
+    const dispatch = useDispatch();
 
-    const scroll = (direction: 'left' | 'right') => {
-        if (scrollRef.current) {
-            const { scrollLeft, clientWidth } = scrollRef.current;
-            // Scrolls by one full view-width at a time
-            const scrollTo = direction === 'left' ? scrollLeft - clientWidth : scrollLeft + clientWidth;
+    const handleAdd = () => {
+        try {
+            dispatch(addToCart({
+                id: productdetails?.id as number,
+                title: productdetails?.title as string,
+                price: productdetails?.price as number,
+                image: productdetails?.images[0] as string,
+                quantity: 1,
+                selectedSize: selectedSize,
+                selectedColor: selectedColor as unknown as string,
+            }));
 
-            scrollRef.current.scrollTo({
-                left: scrollTo,
-                behavior: 'smooth',
-            });
+            toast.success("Item added to cart!");
+        }
+        catch (error) {
+            console.error("Failed to add item to cart:", error);
         }
     };
+
+
 
     return (
         <section className="max-w-7xl mx-auto px-4 py-8 font-rubik">
@@ -146,7 +150,7 @@ export default function ProductDetails() {
                         {/* Action   */}
                         <div className=' w-full space-y-2  '>
                             <div className="w-full flex space-x-2 justify-between">
-                                <Button variant="secondary" className='w-4/5' >
+                                <Button variant="secondary" className='w-4/5' onClick={handleAdd} >
                                     Add to Cart
                                 </Button>
                                 <Button variant="icon" className='bg-black '>
@@ -172,69 +176,9 @@ export default function ProductDetails() {
                 </div>
             }
 
-            {/* Releted Products */}
-            <div className="px-4 mt-20">
-                <div className="flex items-center md:items-end justify-between space-x-2 px-4 py-8">
-                    <h1 className="text-2xl md:text-4xl md:text-[48px] font-[1000] uppercase italic tracking-tighter text-dark-gray leading-none">
-                        You may also like
-                    </h1>
-                    <div className="w-full md:w-auto flex items-center justify-end space-x-2">
-                        <Button
-                            variant="icon"
-                            className='bg-black text-white hover:bg-gray-800'
-                            onClick={() => scroll('left')}
-                        >
-                            <ArrowLeft />
-                        </Button>
-                        <Button
-                            variant="icon"
-                            className='bg-black text-white hover:bg-gray-800'
-                            onClick={() => scroll('right')}
-                        >
-                            <ArrowRight />
-                        </Button>
-                    </div>
-                </div>
 
-                {/* --- SLIDER CONTAINER --- */}
-                <div
-                    ref={scrollRef}
-                    className="flex overflow-x-auto no-scrollbar snap-x snap-mandatory scroll-smooth gap-6"
-                >
-                    {reletedProducts.map((product) => (
-                        <div
-                            key={product.id}
-                            className="min-w-full md:min-w-[calc(25%-18px)] snap-start"
-                        >
-                            <ProductCard product={product} />
-                        </div>
-                    ))}
-
-                    {/* Loading Skeletons */}
-                    {isLoading && (
-                        <div className="flex gap-6 w-full">
-                            {[...Array(4)].map((_, i) => (
-                                <div key={i} className="min-w-full md:min-w-[calc(25%-18px)]">
-                                    <ProductCardSkeleton />
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                {/* Bottom bar / Pagination */}
-                <div className="flex items-center justify-center gap-2 py-4 mt-8">
-                    {[...Array(4)].map((_, index) => (
-                        <div
-                            key={index}
-                            className={`
-              h-2 w-12 rounded-full transition-all duration-300
-              ${index === 0 ? "bg-[#4A69E2]" : "bg-[#BCBCBC]"}
-            `}
-                        />
-                    ))}
-                </div>
-            </div>
+            {/* Releted Producsts */}
+            <ReletedProductSection categoryId={productdetails?.category.id as number} productId={productdetails?.id as number} />
         </section>
     );
 }

@@ -4,6 +4,7 @@ import "./globals.css";
 import StoreProvider from "../components/StoreProvider";
 import Navbar from "@/components/shared/navbar/navbar";
 import Footer from "@/components/shared/footer/footer";
+import { Toaster } from "sonner";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -25,9 +26,11 @@ export default function RootLayout({
     <html lang="en">
       <body
         className={`${rubik.variable} antialiased max-w-[14400px] mx-auto `}
+        suppressHydrationWarning={true}
       >
         <StoreProvider>
           <Navbar />
+          <Toaster position="top-center" richColors />
           {children}
           <Footer />
         </StoreProvider>

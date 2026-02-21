@@ -14,7 +14,7 @@ export default function UsersPage() {
   // Get Products Data
   const { data: products, error, isLoading } = useGetProductsQuery();
   // Filter Data into 4 products
-  const displayedProducts = products ? products.slice(0, 4) : [];
+  const displayedProducts = products ? products.slice(30, 34) : [];
 
 
   return (
