@@ -6,6 +6,13 @@ import { RootState } from '@/lib/store';
 import { clearCart, removeFromCart } from '@/lib/features/cartSlice';
 import Link from 'next/link';
 import ReletedProductSection from '@/components/sections/reletedProductSection';
+import React from 'react';
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import OrderConfirmationModal from '@/components/confimationModal';
 
 export default function CartPage() {
 
@@ -19,6 +26,8 @@ export default function CartPage() {
         dispatch(removeFromCart({ id, selectedSize, selectedColor }));
     }
 
+    // Order COnfirmation Modal State
+    const [isOpen, setIsOpen] = React.useState(false);
     return (
         <div className=" pt-10 pb-12 px-4 font-rubik max-w-7xl mx-auto ">
             <div >
@@ -75,7 +84,7 @@ export default function CartPage() {
 
                                 </div>
                                 <div>
-                                    <Button    onClick={() => dispatch(clearCart())} className='bg-red-500 hover:bg-red-700' >
+                                    <Button onClick={() => dispatch(clearCart())} className='bg-red-500 hover:bg-red-700' >
                                         Clear Bag <Trash className="w-4 h-4 ml-2" />
                                     </Button>
                                 </div>
@@ -160,9 +169,26 @@ export default function CartPage() {
                                     </div>
                                 </div>
 
-                                <Button variant="secondary" className='w-full'>
-                                    Checkout
-                                </Button>
+                                <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                                    <DialogTrigger asChild>
+                                        <Button
+                                            variant="secondary"
+                                            className='w-full'
+                                            onClick={() => {
+                                                setIsOpen(true);
+                                            }}
+                                        >
+                                            Checkout
+                                        </Button>
+                                    </DialogTrigger>
+
+                                    <DialogContent className="max-w-md p-0 bg-transparent border-none shadow-none">
+                                        <OrderConfirmationModal
+                                            orderNumber="KKS-2026-99X"
+                                            onClose={() => setIsOpen(false)}
+                                        />
+                                    </DialogContent>
+                                </Dialog>
                             </div>
 
                             <button className="w-full text-left font-black text-dark-gray     tracking-tighter underline underline-offset-8 decoration-2 hover:text-primary transition-colors px-4">
